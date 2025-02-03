@@ -1,6 +1,6 @@
 {
   "name": "@bitte-ai/wallet",
-  "version": "0.6.6-beta-prerelease.5",
+  "version": "0.6.6-beta-prerelease.6",
   "description": "Bitte Wallet",
   "keywords": [
     "bitte",
@@ -10,7 +10,7 @@
     "watch": "tsc && tsc --watch & jest --watch --coverage",
     "lint": "eslint . --fix --ext ts --ext tsx",
     "build": "tsup --config tsup.config.ts --external fsevents",
-    "prepare": "npm run build"
+    "prepare": "pnpm run build"
   },
   "exports": {
     ".": {
@@ -31,9 +31,9 @@
   "author": "Bitte Team",
   "license": "MIT",
   "dependencies": {
-    "@near-wallet-selector/core": "8.9.12",
-    "@near-wallet-selector/wallet-utils": "^8.9.12",
-    "near-api-js": "^4.0.3"
+    "@near-wallet-selector/core": "latest",
+    "@near-wallet-selector/wallet-utils": "latest",
+    "near-api-js": "latest"
   },
   "devDependencies": {
     "tsup": "^8.3.5",
