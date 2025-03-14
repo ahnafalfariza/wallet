@@ -8,22 +8,9 @@ import type {
 } from "@near-wallet-selector/core";
 import { icon } from "./icon";
 import { createBitteWalletConnector } from "./bitte-wallet";
+import { BitteWalletExtraOptions, BitteWalletParams, BitteWalletState } from "./types";
 
-export interface BitteWalletParams {
-  walletUrl?: string;
-  iconUrl?: string;
-  deprecated?: boolean;
-  successUrl?: string;
-  failureUrl?: string;
-}
 
-interface BitteWalletState {
-  wallet: ReturnType<typeof createBitteWalletConnector>;
-}
-
-interface BitteWalletExtraOptions {
-  walletUrl: string;
-}
 
 const resolveWalletUrl = (network: Network, walletUrl?: string) => {
   if (walletUrl) {
@@ -148,8 +135,6 @@ const BitteWallet: WalletBehaviourFactory<
         throw new Error("Wallet not signed in");
       }
 
-      console.log(transactions, 'transactions')
-
       return state.wallet.signAndSendTransactions(
         transactions as Array<Transaction>
       );
@@ -183,7 +168,7 @@ export function setupBitteWallet({
         return BitteWallet({
           ...options,
           params: {
-            walletUrl: resolveWalletUrl(options.options.network, walletUrl),
+            walletUrl: resolveWalletUrl(moduleOptions.options.network, walletUrl),
           },
         });
       },

@@ -2,54 +2,21 @@ import type {
   Action,
   FinalExecutionOutcome,
   Network,
-  SignedMessage,
   SignMessageParams,
   Transaction,
 } from "@near-wallet-selector/core";
-import { createAction } from "@near-wallet-selector/wallet-utils";
+ import { createAction } from "@near-wallet-selector/wallet-utils";
 import { connect, keyStores, providers, transactions } from "near-api-js";
 import type { PublicKey } from "near-api-js/lib/utils";
 import { KeyPair, serialize } from "near-api-js/lib/utils";
+import { WalletConfig, WalletMessage, WalletResponseData, WalletState } from "./types";
 
-import type { JsonRpcProvider } from "near-api-js/lib/providers";
 
 // Constants
 const DEFAULT_POPUP_WIDTH = 480;
 const DEFAULT_POPUP_HEIGHT = 640;
 const POLL_INTERVAL = 300;
 
-// Types
-interface WalletMessage {
-  status: "success" | "failure" | "pending";
-  transactionHashes?: string;
-  error?: string;
-  [key: string]: unknown;
-  signedRequest?: SignedMessage;
-  errorMessage?: string;
-  errorCode?: string;
-}
-
-interface FunctionCallKey {
-  privateKey: string;
-  contractId: string;
-  methods: Array<string>;
-}
-
-interface WalletResponseData extends WalletMessage {
-  public_key?: string;
-  account_id: string;
-}
-
-interface WalletState {
-  signedAccountId: string;
-  functionCallKey: FunctionCallKey | null;
-}
-
-interface WalletConfig {
-  walletUrl: string;
-  network: Network;
-  provider: JsonRpcProvider;
-}
 
 // State management
 const getInitialState = (): WalletState => ({
@@ -254,26 +221,13 @@ const requestSignTransactionsUrl = (
 ): string => {
   const newUrl = new URL(`${config.walletUrl}/sign-transaction`);
 
-  // Convert transactions to JSON and then URL-encode
-  const transactionsData = txs.map(tx => ({
-    signerId: tx.signerId,
-    receiverId: tx.receiverId,
-    actions: tx.actions.map(action => ({
-      type: action.enum.charAt(0).toUpperCase() + action.enum.slice(1), // Capitalize the first letter
-      params: {
-        methodName: action.functionCall.methodName,
-        args: JSON.parse(Buffer.from(action.functionCall.args).toString('utf8')),
-        gas: action.functionCall.gas.toString(),
-        deposit: action.functionCall.deposit.toString(),
-      }
-    })),
-    network: config.network.networkId
-  }));
-
-  const stringifiedParam = JSON.stringify(transactionsData);
+  console.log(txs, 'txns')
+  console.log(txs, 'transactionsData')
+  const stringifiedParam = JSON.stringify(txs);
   const urlParam = encodeURIComponent(stringifiedParam);
 
   newUrl.searchParams.set('transactions_data', urlParam);
+  newUrl.searchParams.set('callback_url', window.location.origin);
 
   return newUrl.toString();
 };
@@ -324,11 +278,8 @@ const signAndSendTransactions = async (
   state: WalletState,
   transactionsWS: Array<Transaction>
 ): Promise<Array<FinalExecutionOutcome>> => {
-  const txs = await Promise.all(
-    transactionsWS.map((t) => completeTransaction(config, state, t))
-  );
 
-  return signAndSendTransactionsPopUp(config, txs);
+  return signAndSendTransactionsPopUp(config, transactionsWS);
 };
 
 // Helper functions
@@ -352,11 +303,8 @@ const setupMessageHandler = <T>(
       return;
     }
 
-    console.log(message.status, 'message');
-
     switch (message.status) {
       case "success":
-        console.log(message, 'message');
         childWindow?.close();
         resolve(callback(message));
         break;
@@ -416,7 +364,7 @@ const handlePopupTransaction = <T>(
   });
 };
 
-// Creating a unified wallet interface
+
 export const createBitteWalletConnector = (walletUrl: string, network: Network) => {
   const config = createWalletConfig(walletUrl, network);
   let state = getInitialState();
