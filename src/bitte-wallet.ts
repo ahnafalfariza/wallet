@@ -10,6 +10,7 @@ import { connect, keyStores, providers, transactions } from "near-api-js";
 import type { PublicKey } from "near-api-js/lib/utils";
 import { KeyPair, serialize } from "near-api-js/lib/utils";
 import { WalletConfig, WalletMessage, WalletResponseData, WalletState } from "./types";
+import type { Transaction as WalletSelectorTransaction, Action as WalletSelectorAction } from "@near-wallet-selector/core";
 
 
 // Constants
@@ -43,7 +44,7 @@ const getAccountId = (state: WalletState): string => {
 
 const getPublicKey = (state: WalletState): PublicKey | undefined => {
   if (state.functionCallKey) {
-    return KeyPair.fromString(state.functionCallKey.privateKey).getPublicKey();
+    return KeyPair.fromString(state.functionCallKey.privateKey as any).getPublicKey();
   }
   return undefined;
 };
@@ -198,7 +199,7 @@ const signUsingKeyPair = async (
 ): Promise<FinalExecutionOutcome> => {
   // instantiate an account (NEAR API is a nightmare)
   const myKeyStore = new keyStores.InMemoryKeyStore();
-  const keyPair = KeyPair.fromString(state.functionCallKey!.privateKey);
+  const keyPair = KeyPair.fromString(state.functionCallKey!.privateKey as any);
 
   await myKeyStore.setKey(
     config.network.networkId,
@@ -217,12 +218,10 @@ const signUsingKeyPair = async (
 
 const requestSignTransactionsUrl = (
   config: WalletConfig,
-  txs: Array<transactions.Transaction>
+  txs:  Array<Transaction>
 ): string => {
   const newUrl = new URL(`${config.walletUrl}/sign-transaction`);
 
-  console.log(txs, 'txns')
-  console.log(txs, 'transactionsData')
   const stringifiedParam = JSON.stringify(txs);
   const urlParam = encodeURIComponent(stringifiedParam);
 
@@ -234,7 +233,7 @@ const requestSignTransactionsUrl = (
 
 const signAndSendTransactionsPopUp = async (
   config: WalletConfig,
-  txs: Array<transactions.Transaction>
+  txs: Array<Transaction>
 ): Promise<Array<FinalExecutionOutcome>> => {
   const url = requestSignTransactionsUrl(config, txs);
   const txsHashes = (
@@ -248,6 +247,8 @@ const signAndSendTransactionsPopUp = async (
     txsHashes.map((hash) => config.provider.txStatus(hash, "unused"))
   );
 };
+
+
 
 const signAndSendTransaction = async (
   config: WalletConfig,
@@ -269,7 +270,7 @@ const signAndSendTransaction = async (
 
   const tx = await completeTransaction(config, state, { receiverId, actions });
 
-  const results = await signAndSendTransactionsPopUp(config, [tx]);
+  const results = await signAndSendTransactionsPopUp(config, [tx as any]);
   return results[0];
 };
 
