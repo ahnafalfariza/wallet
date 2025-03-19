@@ -9,13 +9,13 @@ importers:
   .:
     dependencies:
       '@near-wallet-selector/core':
-        specifier: latest
+        specifier: ^8.9.16
         version: 8.9.16(near-api-js@5.0.1)
       '@near-wallet-selector/wallet-utils':
-        specifier: latest
+        specifier: ^8.9.16
         version: 8.9.16(near-api-js@5.0.1)
       near-api-js:
-        specifier: latest
+        specifier: ^5.0.1
         version: 5.0.1
     devDependencies:
       tsup:

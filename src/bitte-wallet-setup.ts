@@ -10,11 +10,13 @@ import { icon } from "./icon";
 import { createBitteWalletConnector } from "./bitte-wallet";
 import { BitteWalletExtraOptions, BitteWalletParams, BitteWalletState } from "./types";
 
-
-
-const resolveWalletUrl = (network: Network, walletUrl?: string) => {
+const resolveWalletUrl = (network?: Network, walletUrl?: string) => {
   if (walletUrl) {
     return walletUrl;
+  }
+
+  if(!network){
+    return "https://wallet.bitte.ai";
   }
 
   switch (network.networkId) {
@@ -23,7 +25,7 @@ const resolveWalletUrl = (network: Network, walletUrl?: string) => {
     case "testnet":
       return "https://testnet.wallet.bitte.ai";
     default:
-      throw new Error("Invalid wallet url");
+      return "https://wallet.bitte.ai";
   }
 };
 
@@ -119,8 +121,6 @@ const BitteWallet: WalletBehaviourFactory<
           `Signed in as ${signedAccountId}, cannot sign for ${signerId}`
         );
       }
-
-      console.log(actions, 'actions')
 
       return state.wallet.signAndSendTransaction({
         receiverId: receiverId || contract.contractId,
