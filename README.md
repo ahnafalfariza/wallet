@@ -53,9 +53,9 @@ const  selector = await  setupWalletSelector({
 
 ## setupBitteWallet
 
-  -  `network:` Near Networks
+ -  `network:` Near Networks
 
--  `walletUrl:` valid wallet urls
+ -  `walletUrl:` valid wallet urls
 
 
 ## Troubleshooting
