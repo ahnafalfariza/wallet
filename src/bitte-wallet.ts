@@ -5,12 +5,11 @@ import type {
   SignMessageParams,
   Transaction,
 } from "@near-wallet-selector/core";
- import { createAction } from "@near-wallet-selector/wallet-utils";
+import { createAction } from "@near-wallet-selector/wallet-utils";
 import { connect, keyStores, providers, transactions } from "near-api-js";
-import type { PublicKey } from "near-api-js/lib/utils";
-import { KeyPair, serialize } from "near-api-js/lib/utils";
+import type { PublicKey } from "near-api-js/lib/utils/index.js";
+import { KeyPair, serialize } from "near-api-js/lib/utils/index.js";
 import { WalletConfig, WalletMessage, WalletResponseData, WalletState } from "./types";
-import type { Transaction as WalletSelectorTransaction, Action as WalletSelectorAction } from "@near-wallet-selector/core";
 
 
 // Constants
@@ -218,7 +217,7 @@ const signUsingKeyPair = async (
 
 const requestSignTransactionsUrl = (
   config: WalletConfig,
-  txs:  Array<Transaction>
+  txs: Array<Transaction>
 ): string => {
   const newUrl = new URL(`${config.walletUrl}/sign-transaction`);
 
