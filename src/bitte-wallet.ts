@@ -6,9 +6,9 @@ import type {
   Transaction,
 } from "@near-wallet-selector/core";
 import { createAction } from "@near-wallet-selector/wallet-utils";
-import { connect, keyStores, providers, transactions } from "near-api-js";
+import { connect, keyStores, providers } from "near-api-js";
 import type { PublicKey } from "near-api-js/lib/utils/index.js";
-import { KeyPair, serialize } from "near-api-js/lib/utils/index.js";
+import { KeyPair } from "near-api-js/lib/utils/index.js";
 import { WalletConfig, WalletMessage, WalletResponseData, WalletState } from "./types";
 
 
