@@ -218,12 +218,21 @@ const signAndSendTransactionsPopUp = async (
     await handlePopupTransaction(config, url, (data) => data.transactionHashes)
   )?.split(",").map(decodeURIComponent);
 
+
+  console.log(txsHashes, 'hashes')
+
+
   if (!txsHashes) {
     throw new Error("No transaction hashes received");
   }
-  return Promise.all(
+
+  const res =  Promise.all(
     txsHashes.map((hash) => config.provider.txStatus(hash, "unused"))
   );
+
+  console.log(res, 'res')
+
+  return res
 };
 
 
