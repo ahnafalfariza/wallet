@@ -1,6 +1,6 @@
 {
   "name": "@bitte-ai/wallet",
-  "version": "0.7.0",
+  "version": "0.7.2-beta",
   "description": "Bitte Wallet",
   "keywords": [
     "bitte",
@@ -15,15 +15,16 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
+      "require": "./dist/index.js",
       "import": "./dist/index.mjs",
-      "require": "./dist/index.js"
+      "default": "./dist/index.mjs"
     }
   },
   "files": [
     "dist"
   ],
-  "main": "dist/index.cjs.js",
-  "module": "dist/index.esm.js",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs.js",
   "types": "dist/index.d.ts",
   "publishConfig": {
     "access": "public"
@@ -31,9 +32,9 @@
   "author": "Bitte Team",
   "license": "MIT",
   "dependencies": {
-    "@near-wallet-selector/core": "^8.9.16",
-    "@near-wallet-selector/wallet-utils": "^8.9.16",
-    "near-api-js": "^5.0.1"
+    "@near-wallet-selector/core": "^8.10.1",
+    "@near-wallet-selector/wallet-utils": "^8.10.1",
+    "near-api-js": "^5.1.1"
   },
   "devDependencies": {
     "tsup": "^8.3.5",

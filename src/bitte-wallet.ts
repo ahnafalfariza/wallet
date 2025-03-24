@@ -5,12 +5,11 @@ import type {
   SignMessageParams,
   Transaction,
 } from "@near-wallet-selector/core";
- import { createAction } from "@near-wallet-selector/wallet-utils";
-import { connect, keyStores, providers, transactions } from "near-api-js";
-import type { PublicKey } from "near-api-js/lib/utils";
-import { KeyPair, serialize } from "near-api-js/lib/utils";
+import { createAction } from "@near-wallet-selector/wallet-utils";
+import { connect, keyStores, providers } from "near-api-js";
+import type { PublicKey } from "near-api-js/lib/utils/index.js";
+import { KeyPair } from "near-api-js/lib/utils/index.js";
 import { WalletConfig, WalletMessage, WalletResponseData, WalletState } from "./types";
-import type { Transaction as WalletSelectorTransaction, Action as WalletSelectorAction } from "@near-wallet-selector/core";
 
 
 // Constants
@@ -21,13 +20,13 @@ const POLL_INTERVAL = 300;
 
 // State management
 const getInitialState = (): WalletState => ({
-  signedAccountId: localStorage.getItem("signedAccountId") || "",
-  functionCallKey: JSON.parse(localStorage.getItem("functionCallKey") || "null"),
+  signedAccountId: localStorage.getItem("bitte:signedAccountId") || "",
+  functionCallKey: JSON.parse(localStorage.getItem("bitte:functionCallKey") || "null"),
 });
 
 const saveState = (state: WalletState): void => {
-  localStorage.setItem("signedAccountId", state.signedAccountId);
-  localStorage.setItem("functionCallKey", JSON.stringify(state.functionCallKey));
+  localStorage.setItem("bitte:signedAccountId", state.signedAccountId);
+  localStorage.setItem("bitte:functionCallKey", JSON.stringify(state.functionCallKey));
 };
 
 // Create wallet configuration
@@ -153,26 +152,6 @@ const signMessage = async (
   });
 };
 
-const completeTransaction = async (
-  config: WalletConfig,
-  state: WalletState,
-  { receiverId, actions }: { receiverId: string; actions: Array<Action> }
-): Promise<transactions.Transaction> => {
-  // To create a transaction we need a recent block
-  const block = await config.provider.block({ finality: "final" });
-  const blockHash = serialize.base_decode(block.header.hash);
-
-  // create Transaction for the wallet
-  return transactions.createTransaction(
-    state.signedAccountId,
-    KeyPair.fromRandom("ed25519").getPublicKey(),
-    receiverId,
-    0,
-    actions.map((a) => createAction(a)),
-    Uint8Array.from(blockHash)
-  );
-};
-
 const storedKeyCanSign = (
   state: WalletState,
   receiverId: string,
@@ -218,11 +197,10 @@ const signUsingKeyPair = async (
 
 const requestSignTransactionsUrl = (
   config: WalletConfig,
-  txs:  Array<Transaction>
+  txs: Array<Transaction>
 ): string => {
   const newUrl = new URL(`${config.walletUrl}/sign-transaction`);
-
-  const stringifiedParam = JSON.stringify(txs);
+  const stringifiedParam = JSON.stringify(txs, (_, v) => typeof v === 'bigint' ? v.toString() : v);
   const urlParam = encodeURIComponent(stringifiedParam);
 
   newUrl.searchParams.set('transactions_data', urlParam);
@@ -267,10 +245,7 @@ const signAndSendTransaction = async (
     }
   }
 
-
-  const tx = await completeTransaction(config, state, { receiverId, actions });
-
-  const results = await signAndSendTransactionsPopUp(config, [tx as any]);
+  const results = await signAndSendTransactionsPopUp(config, [{ signerId: state.signedAccountId, receiverId, actions }]);
   return results[0];
 };
 
