@@ -20,13 +20,13 @@ const POLL_INTERVAL = 300;
 
 // State management
 const getInitialState = (): WalletState => ({
-  signedAccountId: localStorage.getItem("signedAccountId") || "",
-  functionCallKey: JSON.parse(localStorage.getItem("functionCallKey") || "null"),
+  signedAccountId: localStorage.getItem("bitte:signedAccountId") || "",
+  functionCallKey: JSON.parse(localStorage.getItem("bitte:functionCallKey") || "null"),
 });
 
 const saveState = (state: WalletState): void => {
-  localStorage.setItem("signedAccountId", state.signedAccountId);
-  localStorage.setItem("functionCallKey", JSON.stringify(state.functionCallKey));
+  localStorage.setItem("bitte:signedAccountId", state.signedAccountId);
+  localStorage.setItem("bitte:functionCallKey", JSON.stringify(state.functionCallKey));
 };
 
 // Create wallet configuration
@@ -220,8 +220,7 @@ const requestSignTransactionsUrl = (
   txs: Array<Transaction>
 ): string => {
   const newUrl = new URL(`${config.walletUrl}/sign-transaction`);
-
-  const stringifiedParam = JSON.stringify(txs);
+  const stringifiedParam = JSON.stringify(txs, (_, v) => typeof v === 'bigint' ? v.toString() : v);
   const urlParam = encodeURIComponent(stringifiedParam);
 
   newUrl.searchParams.set('transactions_data', urlParam);
@@ -266,9 +265,7 @@ const signAndSendTransaction = async (
     }
   }
 
-
   const tx = await completeTransaction(config, state, { receiverId, actions });
-
   const results = await signAndSendTransactionsPopUp(config, [tx as any]);
   return results[0];
 };
