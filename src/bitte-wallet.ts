@@ -152,26 +152,6 @@ const signMessage = async (
   });
 };
 
-const completeTransaction = async (
-  config: WalletConfig,
-  state: WalletState,
-  { receiverId, actions }: { receiverId: string; actions: Array<Action> }
-): Promise<transactions.Transaction> => {
-  // To create a transaction we need a recent block
-  const block = await config.provider.block({ finality: "final" });
-  const blockHash = serialize.base_decode(block.header.hash);
-
-  // create Transaction for the wallet
-  return transactions.createTransaction(
-    state.signedAccountId,
-    KeyPair.fromRandom("ed25519").getPublicKey(),
-    receiverId,
-    0,
-    actions.map((a) => createAction(a)),
-    Uint8Array.from(blockHash)
-  );
-};
-
 const storedKeyCanSign = (
   state: WalletState,
   receiverId: string,
@@ -265,8 +245,7 @@ const signAndSendTransaction = async (
     }
   }
 
-  const tx = await completeTransaction(config, state, { receiverId, actions });
-  const results = await signAndSendTransactionsPopUp(config, [tx as any]);
+  const results = await signAndSendTransactionsPopUp(config, [{ signerId: state.signedAccountId, receiverId, actions }]);
   return results[0];
 };
 
