@@ -216,7 +216,7 @@ const signAndSendTransactionsPopUp = async (
   const url = requestSignTransactionsUrl(config, txs);
   const txsHashes = (
     await handlePopupTransaction(config, url, (data) => data.transactionHashes)
-  )?.split(",");
+  )?.split("%2C");
 
   if (!txsHashes) {
     throw new Error("No transaction hashes received");
