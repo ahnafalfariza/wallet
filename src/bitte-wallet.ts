@@ -343,6 +343,15 @@ const handlePopupTransaction = <T>(
 
 export const createBitteWalletConnector = (walletUrl: string, network: Network) => {
   const config = createWalletConfig(walletUrl, network);
+
+  // Transform from previous wallet version
+  const walletAuthKey = localStorage.getItem("mintbase-wallet_wallet_auth_key");
+  if (walletAuthKey) {
+    const { accountId } = JSON.parse(walletAuthKey) || {};
+    localStorage.setItem("bitte:signedAccountId", accountId);
+    localStorage.removeItem("mintbase-wallet_wallet_auth_key");
+  }
+
   let state = getInitialState();
 
   return {
