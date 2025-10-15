@@ -9,11 +9,8 @@ importers:
   .:
     dependencies:
       '@near-wallet-selector/core':
-        specifier: ^8.10.1
-        version: 8.10.1(near-api-js@5.1.1)
-      '@near-wallet-selector/wallet-utils':
-        specifier: ^8.10.1
-        version: 8.10.1(near-api-js@5.1.1)
+        specifier: ^10.0.0
+        version: 10.0.0(@near-js/keystores@0.2.2)(@near-js/utils@2.3.3(@near-js/types@2.3.3))
       near-api-js:
         specifier: ^5.1.1
         version: 5.1.1
@@ -205,6 +202,12 @@ packages:
   '@near-js/crypto@1.4.2':
     resolution: {integrity: sha512-GRfchsyfWvSAPA1gI9hYhw5FH94Ac1BUo+Cmp5rSJt/V0K3xVzCWgOQxvv4R3kDnWjaXJEuAmpEEnr4Bp3FWrA==}
 
+  '@near-js/crypto@2.3.3':
+    resolution: {integrity: sha512-45/IpVn5gPuy3jZx2dc1hBzQQCbHfCl3/1yufMxf4gpJM/r8DMXgDHMBn90qATna3ur1TDw01e5uKiu/04juRQ==}
+    peerDependencies:
+      '@near-js/types': ^2.0.1
+      '@near-js/utils': ^2.0.1
+
   '@near-js/keystores-browser@0.2.2':
     resolution: {integrity: sha512-Pxqm7WGtUu6zj32vGCy9JcEDpZDSB5CCaLQDTQdF3GQyL0flyRv2I/guLAgU5FLoYxU7dJAX9mslJhPW7P2Bfw==}
 
@@ -217,30 +220,53 @@ packages:
   '@near-js/providers@1.0.3':
     resolution: {integrity: sha512-VJMboL14R/+MGKnlhhE3UPXCGYvMd1PpvF9OqZ9yBbulV7QVSIdTMfY4U1NnDfmUC2S3/rhAEr+3rMrIcNS7Fg==}
 
+  '@near-js/providers@2.3.3':
+    resolution: {integrity: sha512-l4ACORKKCJzMIbh6xKKd2Esv1tgDKlPtXYr1ZisJpVE+b81CIjb4gYFcI1kJ0NhMzT9eJhao5A21B/35wBtQQg==}
+    peerDependencies:
+      '@near-js/crypto': ^2.0.1
+      '@near-js/transactions': ^2.0.1
+      '@near-js/types': ^2.0.1
+      '@near-js/utils': ^2.0.1
+
   '@near-js/signers@0.2.2':
     resolution: {integrity: sha512-M6ib+af9zXAPRCjH2RyIS0+RhCmd9gxzCeIkQ+I2A3zjgGiEDkBZbYso9aKj8Zh2lPKKSH7h+u8JGymMOSwgyw==}
+
+  '@near-js/signers@2.3.3':
+    resolution: {integrity: sha512-oMZZjS9NhvgDEmmqZZHvM3PnUvaht51Hkw2rOgZ2xrWshsvpLViBhLY014aqHIqouWTNDvU+EyFziSstnLN3zw==}
+    peerDependencies:
+      '@near-js/crypto': ^2.0.1
+      '@near-js/keystores': ^2.0.1
+      '@near-js/transactions': ^2.0.1
 
   '@near-js/transactions@1.3.3':
     resolution: {integrity: sha512-1AXD+HuxlxYQmRTLQlkVmH+RAmV3HwkAT8dyZDu+I2fK/Ec9BQHXakOJUnOBws3ihF+akQhamIBS5T0EXX/Ylw==}
 
+  '@near-js/transactions@2.3.3':
+    resolution: {integrity: sha512-b0Wws5S+XMBlgR590BXq7tHqTvaNwK8v+068xu7KkLCdU9z/MJqd8MQLMr/LP56/GMQmf5giWAXVQJZ5cUSorw==}
+    peerDependencies:
+      '@near-js/crypto': ^2.0.1
+      '@near-js/types': ^2.0.1
+      '@near-js/utils': ^2.0.1
+
   '@near-js/types@0.3.1':
     resolution: {integrity: sha512-8qIA7ynAEAuVFNAQc0cqz2xRbfyJH3PaAG5J2MgPPhD18lu/tCGd6pzYg45hjhtiJJRFDRjh/FUWKS+ZiIIxUw==}
+
+  '@near-js/types@2.3.3':
+    resolution: {integrity: sha512-pN3L+xaTG5U0GTu1cZirNNCBaKsZ4t0ftTggmNzzVSNb9duhcFKy1F4mZ8/NJSfMVlhT7yH5+C2mAZDZ0A6edw==}
 
   '@near-js/utils@1.1.0':
     resolution: {integrity: sha512-5XWRq7xpu8Wud9pRXe2U347KXyi0mXofedUY2DQ9TaqiZUcMIaN9xj7DbCs2v6dws3pJyYrT1KWxeNp5fSaY3w==}
 
+  '@near-js/utils@2.3.3':
+    resolution: {integrity: sha512-fit+rFtiPTFy1y4BnOVx5yFLjubNUPJyicOKJM/5R92vs5LoT09EJvhvnfXwQuTux0tIdyscIrvw1lCtz+bLVA==}
+    peerDependencies:
+      '@near-js/types': ^2.0.1
+
   '@near-js/wallet-account@1.3.3':
     resolution: {integrity: sha512-GDzg/Kz0GBYF7tQfyQQQZ3vviwV8yD+8F2lYDzsWJiqIln7R1ov0zaXN4Tii86TeS21KPn2hHAsVu3Y4txa8OQ==}
 
-  '@near-wallet-selector/core@8.10.1':
-    resolution: {integrity: sha512-FHZNLIPF3Qvj2M8cwyeHFH0Gwq58q7ibw02r+TkekyzZgXESvd/kU/OcF11T4r3WG1OrHPiZay7XXeAwDc9Txw==}
-    peerDependencies:
-      near-api-js: ^4.0.0 || ^5.0.0
-
-  '@near-wallet-selector/wallet-utils@8.10.1':
-    resolution: {integrity: sha512-1NxFCGo7bo+CiKOOS4yjSAwAfnjhYYXo3i1UCuu4MhHrQS+EvwMCxCadUKSNGXn1IC1TpKmWMVaENkv7gWKlZQ==}
-    peerDependencies:
-      near-api-js: ^4.0.0 || ^5.0.0
+  '@near-wallet-selector/core@10.0.0':
+    resolution: {integrity: sha512-y2xSfD1r6LQ/OPA2n9/wK4d+nLaRRWdULuX5zlLHYGq91TYDI1Fx9OM5zE1l3uINrKfpxxluAvbJrJJRntmlBw==}
 
   '@noble/curves@1.8.1':
     resolution: {integrity: sha512-warwspo+UYUPep0Q+vtdVB4Ugn8GGQj8iyB3gnRWsztmUHTI3S1nhdiWNsPUGL0vud7JlRRk1XEu7Lq1KGTnMQ==}
@@ -389,6 +415,9 @@ packages:
 
   borsh@1.0.0:
     resolution: {integrity: sha512-fSVWzzemnyfF89EPwlUNsrS5swF5CrtiN4e+h0/lLf4dz2he4L3ndM20PS9wj7ICSkXJe/TQUHdaPTq15b1mNQ==}
+
+  borsh@2.0.0:
+    resolution: {integrity: sha512-kc9+BgR3zz9+cjbwM8ODoUB4fs3X3I5A/HtX7LZKxCLaMrEeDFoBpnhZY//DTS1VZBSs6S5v46RZRbZjRFspEg==}
 
   brace-expansion@2.0.1:
     resolution: {integrity: sha512-XnAIvQ8eM+kC6aULx6wuQiwVsnzsi9d3WxzV3FpWTGA19F621kwdbsAcFKXgKUHZWsy+mY6iL1sHTxWEFCytDA==}
@@ -944,6 +973,15 @@ snapshots:
       randombytes: 2.1.0
       secp256k1: 5.0.1
 
+  '@near-js/crypto@2.3.3(@near-js/types@2.3.3)(@near-js/utils@2.3.3(@near-js/types@2.3.3))':
+    dependencies:
+      '@near-js/types': 2.3.3
+      '@near-js/utils': 2.3.3(@near-js/types@2.3.3)
+      '@noble/curves': 1.8.1
+      borsh: 1.0.0
+      randombytes: 2.1.0
+      secp256k1: 5.0.1
+
   '@near-js/keystores-browser@0.2.2':
     dependencies:
       '@near-js/crypto': 1.4.2
@@ -971,11 +1009,32 @@ snapshots:
     transitivePeerDependencies:
       - encoding
 
+  '@near-js/providers@2.3.3(@near-js/crypto@2.3.3(@near-js/types@2.3.3)(@near-js/utils@2.3.3(@near-js/types@2.3.3)))(@near-js/transactions@2.3.3(@near-js/crypto@2.3.3(@near-js/types@2.3.3)(@near-js/utils@2.3.3(@near-js/types@2.3.3)))(@near-js/types@2.3.3)(@near-js/utils@2.3.3(@near-js/types@2.3.3)))(@near-js/types@2.3.3)(@near-js/utils@2.3.3(@near-js/types@2.3.3))':
+    dependencies:
+      '@near-js/crypto': 2.3.3(@near-js/types@2.3.3)(@near-js/utils@2.3.3(@near-js/types@2.3.3))
+      '@near-js/transactions': 2.3.3(@near-js/crypto@2.3.3(@near-js/types@2.3.3)(@near-js/utils@2.3.3(@near-js/types@2.3.3)))(@near-js/types@2.3.3)(@near-js/utils@2.3.3(@near-js/types@2.3.3))
+      '@near-js/types': 2.3.3
+      '@near-js/utils': 2.3.3(@near-js/types@2.3.3)
+      borsh: 1.0.0
+      exponential-backoff: 3.1.2
+    optionalDependencies:
+      node-fetch: 2.6.7
+    transitivePeerDependencies:
+      - encoding
+
   '@near-js/signers@0.2.2':
     dependencies:
       '@near-js/crypto': 1.4.2
       '@near-js/keystores': 0.2.2
       '@noble/hashes': 1.3.3
+
+  '@near-js/signers@2.3.3(@near-js/crypto@2.3.3(@near-js/types@2.3.3)(@near-js/utils@2.3.3(@near-js/types@2.3.3)))(@near-js/keystores@0.2.2)(@near-js/transactions@2.3.3(@near-js/crypto@2.3.3(@near-js/types@2.3.3)(@near-js/utils@2.3.3(@near-js/types@2.3.3)))(@near-js/types@2.3.3)(@near-js/utils@2.3.3(@near-js/types@2.3.3)))':
+    dependencies:
+      '@near-js/crypto': 2.3.3(@near-js/types@2.3.3)(@near-js/utils@2.3.3(@near-js/types@2.3.3))
+      '@near-js/keystores': 0.2.2
+      '@near-js/transactions': 2.3.3(@near-js/crypto@2.3.3(@near-js/types@2.3.3)(@near-js/utils@2.3.3(@near-js/types@2.3.3)))(@near-js/types@2.3.3)(@near-js/utils@2.3.3(@near-js/types@2.3.3))
+      '@noble/hashes': 1.7.1
+      borsh: 1.0.0
 
   '@near-js/transactions@1.3.3':
     dependencies:
@@ -986,11 +1045,28 @@ snapshots:
       '@noble/hashes': 1.7.1
       borsh: 1.0.0
 
+  '@near-js/transactions@2.3.3(@near-js/crypto@2.3.3(@near-js/types@2.3.3)(@near-js/utils@2.3.3(@near-js/types@2.3.3)))(@near-js/types@2.3.3)(@near-js/utils@2.3.3(@near-js/types@2.3.3))':
+    dependencies:
+      '@near-js/crypto': 2.3.3(@near-js/types@2.3.3)(@near-js/utils@2.3.3(@near-js/types@2.3.3))
+      '@near-js/types': 2.3.3
+      '@near-js/utils': 2.3.3(@near-js/types@2.3.3)
+      '@noble/hashes': 1.7.1
+      borsh: 1.0.0
+
   '@near-js/types@0.3.1': {}
+
+  '@near-js/types@2.3.3': {}
 
   '@near-js/utils@1.1.0':
     dependencies:
       '@near-js/types': 0.3.1
+      '@scure/base': 1.2.4
+      depd: 2.0.0
+      mustache: 4.0.0
+
+  '@near-js/utils@2.3.3(@near-js/types@2.3.3)':
+    dependencies:
+      '@near-js/types': 2.3.3
       '@scure/base': 1.2.4
       depd: 2.0.0
       mustache: 4.0.0
@@ -1009,18 +1085,21 @@ snapshots:
     transitivePeerDependencies:
       - encoding
 
-  '@near-wallet-selector/core@8.10.1(near-api-js@5.1.1)':
+  '@near-wallet-selector/core@10.0.0(@near-js/keystores@0.2.2)(@near-js/utils@2.3.3(@near-js/types@2.3.3))':
     dependencies:
-      borsh: 1.0.0
+      '@near-js/crypto': 2.3.3(@near-js/types@2.3.3)(@near-js/utils@2.3.3(@near-js/types@2.3.3))
+      '@near-js/providers': 2.3.3(@near-js/crypto@2.3.3(@near-js/types@2.3.3)(@near-js/utils@2.3.3(@near-js/types@2.3.3)))(@near-js/transactions@2.3.3(@near-js/crypto@2.3.3(@near-js/types@2.3.3)(@near-js/utils@2.3.3(@near-js/types@2.3.3)))(@near-js/types@2.3.3)(@near-js/utils@2.3.3(@near-js/types@2.3.3)))(@near-js/types@2.3.3)(@near-js/utils@2.3.3(@near-js/types@2.3.3))
+      '@near-js/signers': 2.3.3(@near-js/crypto@2.3.3(@near-js/types@2.3.3)(@near-js/utils@2.3.3(@near-js/types@2.3.3)))(@near-js/keystores@0.2.2)(@near-js/transactions@2.3.3(@near-js/crypto@2.3.3(@near-js/types@2.3.3)(@near-js/utils@2.3.3(@near-js/types@2.3.3)))(@near-js/types@2.3.3)(@near-js/utils@2.3.3(@near-js/types@2.3.3)))
+      '@near-js/transactions': 2.3.3(@near-js/crypto@2.3.3(@near-js/types@2.3.3)(@near-js/utils@2.3.3(@near-js/types@2.3.3)))(@near-js/types@2.3.3)(@near-js/utils@2.3.3(@near-js/types@2.3.3))
+      '@near-js/types': 2.3.3
+      borsh: 2.0.0
       events: 3.3.0
       js-sha256: 0.9.0
-      near-api-js: 5.1.1
       rxjs: 7.8.1
-
-  '@near-wallet-selector/wallet-utils@8.10.1(near-api-js@5.1.1)':
-    dependencies:
-      '@near-wallet-selector/core': 8.10.1(near-api-js@5.1.1)
-      near-api-js: 5.1.1
+    transitivePeerDependencies:
+      - '@near-js/keystores'
+      - '@near-js/utils'
+      - encoding
 
   '@noble/curves@1.8.1':
     dependencies:
@@ -1113,6 +1192,8 @@ snapshots:
   bn.js@4.12.1: {}
 
   borsh@1.0.0: {}
+
+  borsh@2.0.0: {}
 
   brace-expansion@2.0.1:
     dependencies:

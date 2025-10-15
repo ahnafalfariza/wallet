@@ -1,10 +1,12 @@
-import type {
-  WalletModuleFactory,
-  WalletBehaviourFactory,
-  Transaction,
-  Network,
-  Account,
-  InjectedWallet,
+import {
+  type WalletModuleFactory,
+  type WalletBehaviourFactory,
+  type Transaction,
+  type Network,
+  type Account,
+  type InjectedWallet,
+  type Action,
+  najActionToInternal,
 } from "@near-wallet-selector/core";
 import { icon } from "./icon";
 import { createBitteWalletConnector } from "./bitte-wallet";
@@ -63,7 +65,7 @@ const BitteWallet: WalletBehaviourFactory<
     async signIn({ contractId, methodNames }) {
       if (!state.wallet.isSignedIn()) {
         await state.wallet.requestSignIn({
-          contractId,
+          contractId: contractId || "",
           methodNames,
         });
       }
@@ -124,7 +126,8 @@ const BitteWallet: WalletBehaviourFactory<
 
       return state.wallet.signAndSendTransaction({
         receiverId: receiverId || contract.contractId,
-        actions,
+        // Convert actions for compatibility with wallet selector v10
+        actions: actions.map(action => najActionToInternal(action)) as unknown as Array<Action>,
       });
     },
 
@@ -135,14 +138,39 @@ const BitteWallet: WalletBehaviourFactory<
         throw new Error("Wallet not signed in");
       }
 
+      const _transactions = transactions.map(transaction => (
+        {
+          ...transaction,
+          // Convert actions for compatibility with wallet selector v10
+          actions: transaction.actions.map(action => najActionToInternal(action)) as unknown as Array<Action>,
+        }
+      )) as Array<Transaction>;
+
       return state.wallet.signAndSendTransactions(
-        transactions as Array<Transaction>
+        _transactions
       );
     },
 
     buildImportAccountsUrl() {
       return `${params.walletUrl}/batch-import`;
     },
+
+    // Added for compatibility with wallet selector v10
+    getPublicKey() {
+      throw new Error(`Method not supported by ${metadata.name}`);
+    },
+
+    signDelegateAction() {
+      throw new Error(`Method not supported by ${metadata.name}`);
+    },
+
+    signNep413Message() {
+      throw new Error(`Method not supported by ${metadata.name}`);
+    },
+
+    signTransaction() {
+      throw new Error(`Method not supported by ${metadata.name}`);
+    }
   };
 };
 

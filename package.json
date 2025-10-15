@@ -32,8 +32,7 @@
   "author": "Bitte Team",
   "license": "MIT",
   "dependencies": {
-    "@near-wallet-selector/core": "^8.10.1",
-    "@near-wallet-selector/wallet-utils": "^8.10.1",
+    "@near-wallet-selector/core": "^10.0.0",
     "near-api-js": "^5.1.1"
   },
   "devDependencies": {

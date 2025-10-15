@@ -1,11 +1,11 @@
-import type {
-  Action,
-  FinalExecutionOutcome,
-  Network,
-  SignMessageParams,
-  Transaction,
+import {
+  internalActionToNaj,
+  type Action,
+  type FinalExecutionOutcome,
+  type Network,
+  type SignMessageParams,
+  type Transaction,
 } from "@near-wallet-selector/core";
-import { createAction } from "@near-wallet-selector/wallet-utils";
 import { connect, keyStores, providers } from "near-api-js";
 import type { PublicKey } from "near-api-js/lib/utils/index.js";
 import { KeyPair } from "near-api-js/lib/utils/index.js";
@@ -155,7 +155,7 @@ const signMessage = async (
 const storedKeyCanSign = (
   state: WalletState,
   receiverId: string,
-  actions: Array<Action>
+  actions: Array<any>
 ): boolean => {
   if (
     state.functionCallKey &&
@@ -191,7 +191,7 @@ const signUsingKeyPair = async (
 
   return account.signAndSendTransaction({
     receiverId,
-    actions: actions.map((a) => createAction(a)),
+    actions: actions.map((a) => internalActionToNaj(a as any)),
   });
 };
 
